@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+</head>
+
+<body>
+    <canvas id="camera--sensor"></canvas>
+    <video id="camera--view" autoplay playsinline></video>
+    <div id="capture">캡쳐하기</div>
+    <div id="result"></div>
+    <script>
+        let constraints = {
+            video: {
+                facingMode: "user"
+            },
+            audio: false
+        };
+        const cameraView = document.querySelector("#camera--view");
+        const cameraSensor = document.querySelector("#camera--sensor");
+        var player = document.getElementById("camera--view");
+
+
+
+        function cameraStart() {
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    track = stream.getTracks()[0];
+                    cameraView.srcObject = stream;
+
+                })
+                .catch(function(error) {
+                    console.error("카메라에 문제가 있습니다.", error);
+                })
+        }
+
+        // 페이지가 로드되면 함수 실행
+        window.addEventListener("load", cameraStart, false);
+        var captureButton = document.getElementById("capture");
+
+        captureButton.addEventListener("click", async function() {
+            // mobilenet을 로딩합니다.
+            net = await mobilenet.load();
+            console.log("Successfully loaded model");
+
+            // Tensorflow.js data API를 이용해 웹캠에서 이미지를 캡쳐하여
+            // 텐서로 저장합니다(mobilenet 전달을 위해 224 x 224 크기로 resize합니다.)
+            const webcam = await tf.data.webcam(player, {
+                resizeWidth: 224,
+                resizeHeight: 224,
+            });
+            // 특정 시점의 이미지 텐서를 캡쳐합니다.
+            const img = await webcam.capture();
+            // 로딩된 mobilenet 모델에 전달합니다.
+            document.getElementById("console");
+            const result = await net.classify(img);
+            // classify를 통해 전달받은 결과를 html element에 전달합니다.
+            innerText = `
+  prediction: ${result[0].className}\n
+  probability: ${result[0].probability}
+  `;
+            document.getElementById("result").innerText = innerText;
+            console.log(innerText);
+            // img 텐서를 지웁니다.
+            img.dispose();
+        });
+    </script>
+</body>
+
+</html>
