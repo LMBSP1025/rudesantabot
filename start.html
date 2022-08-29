@@ -57,11 +57,11 @@
             document.getElementById("console");
             const result = await net.classify(img);
             // classify를 통해 전달받은 결과를 html element에 전달합니다.
+            img.dispose();
             innerText = `prediction: ${result[0].className}\n probability: ${result[0].probability}`;
             document.getElementById("result").innerText = innerText;
             console.log(innerText);
             // img 텐서를 지웁니다.
-            img.dispose();
         });
     </script>
 </body>
