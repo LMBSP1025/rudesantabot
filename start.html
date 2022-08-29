@@ -51,10 +51,7 @@
 
             // Tensorflow.js data API를 이용해 웹캠에서 이미지를 캡쳐하여
             // 텐서로 저장합니다(mobilenet 전달을 위해 224 x 224 크기로 resize합니다.)
-            const webcam = await tf.data.webcam(player, {
-                resizeWidth: 224,
-                resizeHeight: 224,
-            });
+            const webcam = await tf.data.webcam(player);
             // 특정 시점의 이미지 텐서를 캡쳐합니다.
             const img = await webcam.capture();
             // 로딩된 mobilenet 모델에 전달합니다.
