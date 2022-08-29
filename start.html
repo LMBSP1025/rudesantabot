@@ -19,9 +19,7 @@
     <script>
         let constraints = {
             video: {
-                facingMode: "environment",
-                width: 300,
-                height: 300
+                facingMode: "environment"
             },
             audio: false
         };
@@ -44,22 +42,23 @@
 
         // 페이지가 로드되면 함수 실행
         window.addEventListener("load", cameraStart, false);
+        window.addEventListener("resize", cameraStart, false);
         var captureButton = document.getElementById("capture");
 
         captureButton.addEventListener("click", async function() {
+
             const webcam = await tf.data.webcam(player, {
                 resizeWidth: 300,
                 resizeHeight: 300
             });
             net = await mobilenet.load();
             while (true) {
-
                 const img = await webcam.capture();
                 const result = await net.classify(img);
                 innerText = `prediction: ${result[0].className}\n probability: ${result[0].probability}`;
                 document.getElementById("result").innerText = innerText;
-                img.dispose();
                 await tf.nextFrame();
+
             }
         });
     </script>
