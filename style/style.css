@@ -1,8 +1,26 @@
 body {
-    background-color: orangered;
+    background-color: rgb(216, 57, 57);
     margin: 0;
 }
 
 canvas {
     position: absolute;
+}
+
+#main {
+    width: max-content;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 25px;
+}
+
+#capture {
+    width: 100px;
+    height: 50px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 25px;
+    align-items: center;
+    line-height: 50px;
 }

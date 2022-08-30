@@ -11,11 +11,13 @@
 </head>
 
 <body>
-    <canvas id="camera--sensor"></canvas>
-    <video id="camera--view" autoplay playsinline></video>
-    <img id="res" src="" alt="">
-    <div id="capture">캡쳐하기</div>
-    <div id="result"></div>
+    <div id="main">
+        <canvas id="camera--sensor"></canvas>
+        <video id="camera--view" autoplay playsinline></video>
+        <div id="capture">캡쳐하기</div>
+        <div id="result"></div>
+
+    </div>
     <script>
         let constraints = {
             video: {
@@ -46,20 +48,16 @@
         var captureButton = document.getElementById("capture");
 
         captureButton.addEventListener("click", async function() {
-
             const webcam = await tf.data.webcam(player, {
                 resizeWidth: 300,
                 resizeHeight: 300
             });
             net = await mobilenet.load();
-            while (true) {
-                const img = await webcam.capture();
-                const result = await net.classify(img);
-                innerText = `prediction: ${result[0].className}\n probability: ${result[0].probability}`;
-                document.getElementById("result").innerText = innerText;
-                await tf.nextFrame();
-
-            }
+            const img = await webcam.capture();
+            const result = await net.classify(img);
+            innerText = `prediction: ${result[0].className}\n probability: ${result[0].probability}`;
+            document.getElementById("result").innerText = innerText;
+            await tf.nextFrame();
         });
     </script>
 </body>
