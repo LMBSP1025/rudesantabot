@@ -11,7 +11,6 @@ canvas {
     width: max-content;
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 25px;
 }
 
 #capture {
@@ -20,7 +19,7 @@ canvas {
     margin: 0 auto;
     text-align: center;
     background-color: white;
-    border-radius: 25px;
     align-items: center;
     line-height: 50px;
+    border-radius: 25px;
 }

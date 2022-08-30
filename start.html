@@ -19,17 +19,19 @@
 
     </div>
     <script>
-        let constraints = {
-            video: {
-                facingMode: "environment"
-            },
-            audio: false
-        };
         const cameraView = document.querySelector("#camera--view");
         const cameraSensor = document.querySelector("#camera--sensor");
         var player = document.getElementById("camera--view");
 
         function cameraStart() {
+            let constraints = {
+                video: {
+                    facingMode: "environment",
+                    height: window.innerHeight,
+                    width: window.innerWidth,
+                },
+                audio: false
+            };
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
                     track = stream.getTracks()[0];
@@ -52,12 +54,13 @@
                 resizeWidth: 300,
                 resizeHeight: 300
             });
+            cameraStart();
             net = await mobilenet.load();
             const img = await webcam.capture();
             const result = await net.classify(img);
             innerText = `prediction: ${result[0].className}\n probability: ${result[0].probability}`;
             document.getElementById("result").innerText = innerText;
-            await tf.nextFrame();
+
         });
     </script>
 </body>
